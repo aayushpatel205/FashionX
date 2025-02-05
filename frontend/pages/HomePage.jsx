@@ -1,0 +1,122 @@
+import React from 'react'
+import hero_img from "../src/assets/frontend_assets/hero_img.png";
+import ProductCard from "../components/ProductCard";
+
+const HomePage = () => {
+  return (
+    <div className="flex flex-col justify-center items-center gap-10 w-[100%] no-scrollbar">
+      <div className="border-gray-400 border h-[500px] w-[80%] flex">
+        <div className="w-[50%] h-[100%] flex flex-col justify-center items-center">
+          <div className="flex items-center gap-2 text-gray-700">
+            <div className="w-20 h-[1px] bg-gray-700"></div>
+            <span className="text-4xl font-extralight">OUR BESTSELLERS</span>
+          </div>
+
+          <div className="flex items-center gap-2 text-gray-700">
+            <span className="text-4xl font-extralight">SHOP NOW</span>
+            <div className="w-20 h-[1px] bg-gray-700"></div>
+          </div>
+        </div>
+        <div className="w-[50%] h-[100%] bg-pink-200">
+          <img src={hero_img} className="w-[100%] h-[100%]" />
+        </div>
+      </div>
+
+      <div className="flex flex-col justify-center items-center gap-2">
+        <div className="flex gap-2 text-2xl items-center">
+          <p className="text-gray-500">LATEST</p>
+          <p className="font-semibold">COLLECTIONS</p>
+          <div className="w-8 h-[1px] bg-gray-700"></div>
+        </div>
+
+        <p className="text-gray-500">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam
+          exercitationem eaque quae eius totam est rerum sint.
+        </p>
+      </div>
+
+      <div className="w-[80%] flex gap-6 flex-wrap justify-center">
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+
+        <ProductCard />
+      </div>
+
+      <div className="flex flex-col justify-center items-center gap-2 mt-10">
+        <div className="flex gap-2 text-2xl items-center">
+          <p className="text-gray-500">BEST</p>
+          <p className="font-semibold">SELLER</p>
+          <div className="w-8 h-[1px] bg-gray-700"></div>
+        </div>
+
+        <p className="text-gray-500">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam
+          exercitationem eaque quae eius totam est rerum sint.
+        </p>
+      </div>
+
+      <div className="w-[80%] flex gap-6 flex-wrap justify-center ">
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+
+        <ProductCard />
+      </div>
+
+      <div className="mt-28 flex w-[70%] justify-between">
+        <div className="flex flex-col gap-4 items-center">
+          <img src="../src/assets/frontend_assets/exchange_icon.png" className="w-10 h-10" />
+          <div className="flex flex-col items-center">
+            {" "}
+            <p className="font-semibold text-gray-700">Easy Exchange Policy</p>
+            <p className="text-gray-500">
+              We Offer hassle free exchange policy.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4 items-center">
+          <img src="../src/assets/frontend_assets/quality_icon.png" className="w-10 h-10" />
+          <div className="flex flex-col items-center">
+            {" "}
+            <p className="font-semibold text-gray-700">7 Days Return Policy</p>
+            <p className="text-gray-500">
+              We provide 7 days free return policy.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4 items-center">
+          <img src="../src/assets/frontend_assets/support_img.png" className="w-10 h-10" />
+          <div className="flex flex-col items-center">
+            {" "}
+            <p className="font-semibold text-gray-700">Best Customer Support</p>
+            <p className="text-gray-500">We provide 24/7 Customer support.</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-28 flex flex-col items-center gap-4">
+        <p className="text-3xl font-medium text-gray-800">
+          Subscribe Now & get 20% off
+        </p>
+        <p className="text-gray-500">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+          Voluptatibus, repellat aliquid odio cumque!
+        </p>
+
+        <div className="flex w-[90%] justify-center mt-4">
+          <input type="email"  className="w-[50%] h-12 pl-4 pr-2 border-2 border-t-gray-300 border-b-gray-300 border-l-gray-300 text-sm outline-none" placeholder="Enter your email id" />
+          <button className="w-[20%] bg-black h-12 text-white text-sm hover:opacity-85">SUBSCRIBE</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default HomePage
