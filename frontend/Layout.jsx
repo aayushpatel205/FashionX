@@ -8,10 +8,9 @@ const Layout = () => {
   return (
     <div >
       <Navbar />
-      {location.pathname === "/collections" && (
+      {location.pathname !== "/" && (
         <div className="border-gray-400 border-t w-[100%] self-center text-center"></div>
       )}
-
       <Outlet />
     </div>
   );
