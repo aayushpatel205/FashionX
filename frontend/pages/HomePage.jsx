@@ -6,15 +6,17 @@ const HomePage = () => {
   return (
     <div className="flex flex-col justify-center items-center gap-10 w-[100%] no-scrollbar">
       <div className="border-gray-400 border h-[500px] w-[80%] flex">
-        <div className="w-[50%] h-[100%] flex flex-col justify-center items-center">
+        <div className="w-[50%] h-[100%] flex flex-col justify-center items-center gap-4">
           <div className="flex items-center gap-2 text-gray-700">
-            <div className="w-20 h-[1px] bg-gray-700"></div>
-            <span className="text-4xl font-extralight">OUR BESTSELLERS</span>
+            <div className="w-20 text-2xl h-[1px] bg-gray-700"></div>
+            <span className="font-extralight">OUR BESTSELLERS</span>
           </div>
+          
+          <img src='../src/assets/admin_assets/Latest Arrivals.svg' className='h-14'/>
 
-          <div className="flex items-center gap-2 text-gray-700">
-            <span className="text-4xl font-extralight">SHOP NOW</span>
-            <div className="w-20 h-[1px] bg-gray-700"></div>
+          <div className="flex items-center gap-2 text-gray-700 font-medium">
+            <span className="font-extralight">SHOP NOW</span>
+            <div className="w-20 text-2xl h-[1px] bg-gray-700"></div>
           </div>
         </div>
         <div className="w-[50%] h-[100%] bg-pink-200">

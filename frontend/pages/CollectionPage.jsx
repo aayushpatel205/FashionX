@@ -4,7 +4,7 @@ import ProductCard from "../components/ProductCard";
 const CollectionPage = () => {
   return (
     <div className="flex gap-2 w-[100%] no-scrollbar">
-      <div className="w-[23%] px-10 mt-20">
+      <div className="w-[23%] px-14 mt-20">
         <div className="flex flex-col gap-2">
           <p className="text-gray-700 text-2xl">FILTERS</p>
 

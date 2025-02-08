@@ -1,16 +1,18 @@
 import React from "react";
-import { Link , useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
   const path = location.pathname;
-  console.log("location: ",location.pathname);
+  console.log("location: ", location.pathname);
   return (
-    <div className={`h-20 px-10 flex justify-between items-center w[100%]`}>
-      <p className="text-4xl font-medium">
-        Fashion<span className="text-gray-600 font-extralight">X</span>
-      </p>
-
+    <div className={`h-20 px-14 flex justify-between items-center w[100%]`}>
+      <Link to={"/"}>
+        {" "}
+        <p className="text-4xl font-medium cursor-pointer">
+          Fashion<span className="text-gray-600 font-extralight">X</span>
+        </p>
+      </Link>
       <div className="flex gap-10">
         <Link to="/">
           <p className="hover:underline underline-offset-4 cursor-pointer">
@@ -31,13 +33,30 @@ const Navbar = () => {
           CONTACT
         </p>
       </div>
+      <div className="flex gap-7 items-center">
+        <img
+          src="../src/assets/admin_assets/search-interface-symbol.png"
+          className="h-6 w-6 cursor-pointer"
+        />
 
-      <div>
-        {/* <img
-          src="./navbar/bag.png"
-          className="h-11 black w-11"
-          style={{ height: 20, width: 20 }}
-        /> */}
+        <img
+          src="../src/assets/admin_assets/profile-candidate.png"
+          className="h-6 w-6 cursor-pointer"
+        />
+
+        <Link to={"/cart"}>
+          <div className="relative">
+            <img
+              src="../src/assets/admin_assets/shopping-bag.png"
+              className="h-7 w-7 cursor-pointer"
+            />
+            {path !== "/cart" && (
+              <p className="bg-black text-white text-sm w-4 h-4 rounded-full flex justify-center items-center absolute right-0 top-[16px]">
+                2
+              </p>
+            )}
+          </div>
+        </Link>
       </div>
     </div>
   );
