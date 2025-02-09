@@ -1,6 +1,6 @@
 import React from "react";
 import CartItemDisplay from "../components/CartItemDisplay";
-import { useLoaderData, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const MyOrderPage = () => {
   const location = useLocation();

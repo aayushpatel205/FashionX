@@ -63,12 +63,6 @@ const CartItemDisplay = ({ location }) => {
           />
         </div>
       )}
-      {/* <div>
-        <img
-          src="../src/assets/admin_assets/bin.png"
-          className="h-6 w-6 cursor-pointer"
-        />
-      </div> */}
     </div>
   );
 };

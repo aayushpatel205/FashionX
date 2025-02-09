@@ -1,5 +1,6 @@
 import React from "react";
 import ProductCard from "../components/ProductCard";
+import SortDropDown from "../components/SortDropDown";
 
 const CollectionPage = () => {
   return (
@@ -12,15 +13,15 @@ const CollectionPage = () => {
             <p>CATEGORIES</p>
             <div className="mt-2 flex flex-col gap-2">
               <div className="flex gap-2 items-center">
-                <input type="checkbox" className="h-4 w-4" />
+                <input type="checkbox" className="h-4 w-4 accent-black" />
                 <span>Men</span>
               </div>
               <div className="flex gap-2 items-center">
-                <input type="checkbox" className="h-4 w-4" />
+                <input type="checkbox" className="h-4 w-4 accent-black" />
                 <span>Women</span>
               </div>
               <div className="flex gap-2 items-center">
-                <input type="checkbox" className="h-4 w-4" />
+                <input type="checkbox" className="h-4 w-4 accent-black" />
                 <span>Kids</span>
               </div>
             </div>
@@ -30,15 +31,15 @@ const CollectionPage = () => {
             <p>TYPE</p>
             <div className="mt-2 flex flex-col gap-2">
               <div className="flex gap-2 items-center">
-                <input type="checkbox" className="h-4 w-4" />
+                <input type="checkbox" className="h-4 w-4 accent-black" />
                 <span>Topwear</span>
               </div>
               <div className="flex gap-2 items-center">
-                <input type="checkbox" className="h-4 w-4" />
+                <input type="checkbox" className="h-4 w-4 accent-black" />
                 <span>Bottomwear</span>
               </div>
               <div className="flex gap-2 items-center">
-                <input type="checkbox" className="h-4 w-4" />
+                <input type="checkbox" className="h-4 w-4 accent-black" />
                 <span>Winterwear</span>
               </div>
             </div>
@@ -54,10 +55,7 @@ const CollectionPage = () => {
             <div className="ml-2 w-10 h-[2px] bg-gray-700 mt-4"></div>
           </div>
 
-          <div className="border w-[25%] text-sm h-10 flex items-center px-4 justify-between">
-            <span className="text-gray-500">Sort by: Price: <span className="text-gray-700">High To Low</span></span>
-            <img src="../src/assets/frontend_assets/dropdown_icon.png" className="w-3 h-5 rotate-90"/>
-          </div>
+          <SortDropDown/>
         </div>
 
         <div className="mt-4 flex flex-wrap justify-between gap-y-5">

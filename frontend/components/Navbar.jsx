@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
   const path = location.pathname;
   console.log("location: ", location.pathname);
   return (
@@ -26,12 +27,16 @@ const Navbar = () => {
           </p>
         </Link>
 
-        <p className="hover:underline underline-offset-4 cursor-pointer">
-          ABOUT
-        </p>
-        <p className="hover:underline underline-offset-4 cursor-pointer">
-          CONTACT
-        </p>
+        <Link to={"/about-us"}>
+          <p className="hover:underline underline-offset-4 cursor-pointer">
+            ABOUT
+          </p>
+        </Link>
+        <Link to={"/rewards"}>
+          <p className="hover:underline underline-offset-4 cursor-pointer">
+            REWARDS
+          </p>
+        </Link>
       </div>
       <div className="flex gap-7 items-center">
         <img
@@ -39,10 +44,13 @@ const Navbar = () => {
           className="h-6 w-6 cursor-pointer"
         />
 
-        <img
-          src="../src/assets/admin_assets/profile-candidate.png"
-          className="h-6 w-6 cursor-pointer"
-        />
+        <div className="flex flex-col">
+          <img
+            src="../src/assets/admin_assets/profile-candidate.png"
+            className="h-6 w-6 cursor-pointer"
+            onClick={() => setIsOpen(!isOpen)}
+          />
+        </div>
 
         <Link to={"/cart"}>
           <div className="relative">
