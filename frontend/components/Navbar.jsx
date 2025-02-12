@@ -39,11 +39,6 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex gap-7 items-center">
-        <img
-          src="../src/assets/admin_assets/search-interface-symbol.png"
-          className="h-6 w-6 cursor-pointer"
-        />
-
         <div className="flex flex-col">
           <img
             src="../src/assets/admin_assets/profile-candidate.png"

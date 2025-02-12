@@ -1,24 +1,24 @@
 import { useState } from "react";
 
-const SortDropDown = ({ isProfile }) => {
+const SortDropDown = ({ category , optionsArray , width }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("High To Low");
+  const [selectedOption, setSelectedOption] = useState(optionsArray[0]);
 
-  const options = [
-    "High to Low",
-    "Low to High",
-    "High to medium",
-    "Medium to High",
-  ];
+  // const options = [
+  //   "High to Low",
+  //   "Low to High",
+  //   "High to medium",
+  //   "Medium to High",
+  // ];
   return (
-    <div className="relative w-[30%]">
+    <div className={`relative ${width ? "w-[28%]" : "w-[100%]"}`}>
       {/* Dropdown Button */}
         <div
           className="border-2 border-gray-200 text-sm h-10 flex items-center px-4 justify-between bg-white cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         >
           <div className="flex gap-1.5">
-            <span className="text-gray-500">Sort by: Price:</span>
+            <span className="text-gray-500">{category}:</span>
             <span className="text-black">{selectedOption}</span>
           </div>
           <img
@@ -33,7 +33,7 @@ const SortDropDown = ({ isProfile }) => {
       {/* Dropdown Menu */}
       {isOpen && (
         <div className="absolute w-full bg-white text-black mt-2 shadow-md border-gray-200 border">
-          {options.map((option) => (
+          {optionsArray.map((option) => (
             <div
               key={option}
               className="px-4 py-2 hover:bg-black hover:text-white cursor-pointer"
