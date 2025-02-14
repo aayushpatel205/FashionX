@@ -86,7 +86,7 @@ const CollectionPage = () => {
               >
                 Search
               </button>
-              {/* <SortDropDown /> */}
+              <SortDropDown category={"Sort By: Price"} optionsArray={["Low to High", "High to Low", "High to medium", "Medium to High"]}/>
             </div>
           </div>
 
