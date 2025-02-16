@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation , useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const path = location.pathname;
-  console.log("location: ", location.pathname);
   return (
     <div className={`h-20 px-14 flex justify-between items-center w[100%]`}>
       <Link to={"/"}>
@@ -38,8 +38,8 @@ const Navbar = () => {
           </p>
         </Link>
       </div>
-      <div className="flex gap-7 items-center">
-        <div className="flex flex-col">
+      <div className="flex justify-between items-center w-[15%]">
+        <div>
           <img
             src="../src/assets/admin_assets/profile-candidate.png"
             className="h-6 w-6 cursor-pointer"
@@ -60,6 +60,10 @@ const Navbar = () => {
             )}
           </div>
         </Link>
+        <button
+          onClick={()=>navigate("/login")}
+          className="w-[55%] uppercase bg-black h-10 text-white text-sm hover:opacity-85 cursor-pointer"
+        >login</button>
       </div>
     </div>
   );

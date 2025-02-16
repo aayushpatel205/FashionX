@@ -15,6 +15,7 @@ import RewardsPage from "../pages/RewardsPage";
 import AdminLoginPage from "../pages/admin/AdminLoginPage.jsx";
 import AdminLayout from "../pages/admin/AdminLayout.jsx";
 import AdminHomePage from "../pages/admin/AdminHomePage.jsx";
+import ProtectedRoute from "../components/ProtectedRoute.jsx";
 const App = () => {
   return (
     <Routes>
@@ -30,9 +31,16 @@ const App = () => {
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/rewards" element={<RewardsPage />} />
       </Route>
-      <Route path="/admin" element={<AdminLayout/>}>
+      <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminLoginPage />} />
-        <Route path="/admin/home" element={<AdminHomePage />} />
+        <Route
+          path="/admin/home"
+          element={
+            <ProtectedRoute>
+              <AdminHomePage />
+            </ProtectedRoute>
+          }
+        />
       </Route>
     </Routes>
   );

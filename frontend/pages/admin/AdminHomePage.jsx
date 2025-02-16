@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminAddItem from "../../components/AdminAddItem";
 import AdminOrdersViewPage from "../../components/AdminOrdersViewPage";
 import AdminListItems from "../../components/AdminListItems";
+import { toast, ToastContainer } from "react-toastify";
+import { toastStyle } from "../../src/toastStyle";
 
 const AdminHomePage = () => {
   const [activePage, setActivePage] = useState("Add Items");
+  useEffect(()=>{
+    toast.success("Welcome to Admin Panel",toastStyle);
+  },[])
   const RenderComponent = {
     "Add Items": <AdminAddItem />,
     "List Items": <AdminListItems />,
@@ -51,6 +56,7 @@ const AdminHomePage = () => {
         </div>
       </div>
       <div className="w-[82%] p-10">{RenderComponent[activePage]}</div>
+      <ToastContainer/>
     </div>
   );
 };
