@@ -8,7 +8,7 @@ const ProtectedRoute = ({children}) => {
 
   const verifyAdmin = async()=>{
     try {
-      const response = await axiosInstance.get("http://localhost:5000/admin/auth/verify");
+      const response = await axiosInstance.get("http://localhost:8000/admin/auth/verify");
     } catch (error) {
       navigate("/admin");
     }

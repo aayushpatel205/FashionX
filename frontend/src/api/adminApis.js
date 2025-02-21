@@ -8,3 +8,11 @@ export const adminLogin = async (username, password) => {
   }
 };
 
+export const addProduct = async (product) => {
+  try {
+    const response = await axiosInstance.post("/admin/add-product", product);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import hero_img from "../src/assets/frontend_assets/hero_img.png";
 import ProductCard from "../components/ProductCard";
+import { getAllProducts } from "../src/api/userApis";
 
 const HomePage = () => {
+  const [latestProducts, setLatestProducts] = useState([]);
+  const getData = async () => {
+    try {
+      const response = await getAllProducts();
+      setLatestProducts(response.data);
+    } catch (error) {
+      console.log("error: ", error);
+      // toast.error(error.message);
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <div className="flex flex-col justify-center items-center gap-10 w-[100%] no-scrollbar">
       <div className="border-gray-400 border h-[500px] w-[80%] flex">
@@ -11,8 +25,11 @@ const HomePage = () => {
             <div className="w-20 text-2xl h-[1px] bg-gray-700"></div>
             <span className="font-extralight">OUR BESTSELLERS</span>
           </div>
-          
-          <img src='../src/assets/admin_assets/Latest Arrivals.svg' className='h-14'/>
+
+          <img
+            src="../src/assets/admin_assets/Latest Arrivals.svg"
+            className="h-14"
+          />
 
           <div className="flex items-center gap-2 text-gray-700 font-medium">
             <span className="font-extralight">SHOP NOW</span>
@@ -38,13 +55,9 @@ const HomePage = () => {
       </div>
 
       <div className="w-[80%] flex gap-6 flex-wrap justify-center">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-
-        <ProductCard />
+        {latestProducts?.map((element) => {
+          return <ProductCard product={element} />;
+        })}
       </div>
 
       <div className="flex flex-col justify-center items-center gap-2 mt-10">
@@ -61,18 +74,17 @@ const HomePage = () => {
       </div>
 
       <div className="w-[80%] flex gap-6 flex-wrap justify-center ">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-
-        <ProductCard />
+        {latestProducts?.map((element) => {
+          return <ProductCard product={element} />;
+        })}
       </div>
 
       <div className="mt-28 flex w-[70%] justify-between">
         <div className="flex flex-col gap-4 items-center">
-          <img src="../src/assets/frontend_assets/exchange_icon.png" className="w-10 h-10" />
+          <img
+            src="../src/assets/frontend_assets/exchange_icon.png"
+            className="w-10 h-10"
+          />
           <div className="flex flex-col items-center">
             {" "}
             <p className="font-semibold text-gray-700">Easy Exchange Policy</p>
@@ -83,7 +95,10 @@ const HomePage = () => {
         </div>
 
         <div className="flex flex-col gap-4 items-center">
-          <img src="../src/assets/frontend_assets/quality_icon.png" className="w-10 h-10" />
+          <img
+            src="../src/assets/frontend_assets/quality_icon.png"
+            className="w-10 h-10"
+          />
           <div className="flex flex-col items-center">
             {" "}
             <p className="font-semibold text-gray-700">7 Days Return Policy</p>
@@ -94,7 +109,10 @@ const HomePage = () => {
         </div>
 
         <div className="flex flex-col gap-4 items-center">
-          <img src="../src/assets/frontend_assets/support_img.png" className="w-10 h-10" />
+          <img
+            src="../src/assets/frontend_assets/support_img.png"
+            className="w-10 h-10"
+          />
           <div className="flex flex-col items-center">
             {" "}
             <p className="font-semibold text-gray-700">Best Customer Support</p>
@@ -113,12 +131,18 @@ const HomePage = () => {
         </p>
 
         <div className="flex w-[90%] justify-center mt-4">
-          <input type="email"  className="w-[50%] h-12 pl-4 pr-2 border-2 border-t-gray-300 border-b-gray-300 border-l-gray-300 text-sm outline-none" placeholder="Enter your email id" />
-          <button className="w-[20%] bg-black h-12 text-white text-sm hover:opacity-85">SUBSCRIBE</button>
+          <input
+            type="email"
+            className="w-[50%] h-12 pl-4 pr-2 border-2 border-t-gray-300 border-b-gray-300 border-l-gray-300 text-sm outline-none"
+            placeholder="Enter your email id"
+          />
+          <button className="w-[20%] bg-black h-12 text-white text-sm hover:opacity-85">
+            SUBSCRIBE
+          </button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

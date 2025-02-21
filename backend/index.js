@@ -3,10 +3,11 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import connectDatabase from "./database/connect.js";
 import adminRoutes from "./routes/admin/adminRoutes.js";
+import userRoutes from "./routes/user/userRoutes.js";
 import { comparePwd } from "./storePassword.js";
 import jwt from "jsonwebtoken";
 
-const PORT = 5000;
+const PORT = 8000;
 const app = express();
 
 const corsOptions = {
@@ -20,5 +21,6 @@ app.use(cookieParser());
 connectDatabase();
 
 app.use("/admin", adminRoutes);
+app.use("/user",userRoutes)
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

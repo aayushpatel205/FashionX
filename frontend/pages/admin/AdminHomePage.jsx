@@ -7,9 +7,9 @@ import { toastStyle } from "../../src/toastStyle";
 
 const AdminHomePage = () => {
   const [activePage, setActivePage] = useState("Add Items");
-  useEffect(()=>{
-    toast.success("Welcome to Admin Panel",toastStyle);
-  },[])
+  // useEffect(()=>{
+  //   toast.success("Welcome to Admin Panel",toastStyle);
+  // },[])
   const RenderComponent = {
     "Add Items": <AdminAddItem />,
     "List Items": <AdminListItems />,

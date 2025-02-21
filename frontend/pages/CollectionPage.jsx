@@ -1,10 +1,29 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import SortDropDown from "../components/SortDropDown";
+import { getAllProducts } from "../src/api/userApis";
+import { ToastContainer, toast } from "react-toastify";
+import { toastStyle } from "../src/toastStyle";
 
 const CollectionPage = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [allProducts, setAllProducts] = useState([]);
+
+  const getData = async () => {
+    try {
+      const response = await getAllProducts();
+      setAllProducts(response.data);
+    } catch (error) {
+      console.log("error: ", error);
+      // toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div className="flex flex-col items-center w-full relative">
@@ -86,18 +105,27 @@ const CollectionPage = () => {
               >
                 Search
               </button>
-              <SortDropDown category={"Sort By: Price"} optionsArray={["Low to High", "High to Low", "High to medium", "Medium to High"]}/>
+              <SortDropDown
+                category={"Sort By: Price"}
+                optionsArray={[
+                  "Low to High",
+                  "High to Low",
+                  "High to medium",
+                  "Medium to High",
+                ]}
+              />
             </div>
           </div>
 
           {/* Product Grid */}
-          <div className="mt-4 flex flex-wrap justify-between gap-y-5">
-            {[...Array(24)].map((_, index) => (
-              <ProductCard key={index} />
+          <div className="mt-4 flex flex-wrap gap-y-5 gap-8">
+            {allProducts.map((element, index) => (
+              <ProductCard key={index} product={element} />
             ))}
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

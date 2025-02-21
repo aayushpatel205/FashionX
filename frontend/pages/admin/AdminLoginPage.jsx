@@ -32,10 +32,11 @@ const AdminLoginPage = () => {
           className="w-[100%] uppercase bg-black h-10 text-white text-sm hover:opacity-85 cursor-pointer"
           onClick={async () => {
             try {
+              console.log("username: ",username,"password: ",password);
               await adminLogin(username, password);
               navigate("/admin/home");
             } catch (error) {
-              toast.warn(error.response.data.message, toastStyle);
+              toast.warn(error?.response.data.message, toastStyle);
             }
           }}
         >

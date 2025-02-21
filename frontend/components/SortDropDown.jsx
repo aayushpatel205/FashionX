@@ -1,34 +1,39 @@
 import { useState } from "react";
 
-const SortDropDown = ({ category , optionsArray , width }) => {
+const SortDropDown = ({
+  category,
+  optionsArray,
+  width,
+  setCategoryDropDown,
+  categoryDropDown,
+  state,
+  setState,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(optionsArray[0]);
-
-  // const options = [
-  //   "High to Low",
-  //   "Low to High",
-  //   "High to medium",
-  //   "Medium to High",
-  // ];
   return (
     <div className={`relative ${width ? "w-[28%]" : "w-[100%]"}`}>
       {/* Dropdown Button */}
-        <div
-          className="border-2 border-gray-200 text-sm h-10 flex items-center px-4 justify-between bg-white cursor-pointer"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <div className="flex gap-1.5">
-            <span className="text-gray-500">{category}:</span>
-            <span className="text-black">{selectedOption}</span>
-          </div>
-          <img
-            src="../src/assets/frontend_assets/dropdown_icon.png"
-            className={`w-3 h-5 transform transition-transform ${
-              isOpen ? "rotate-270" : "rotate-90"
-            }`}
-          />
+      <div
+        className="border-2 border-gray-200 text-sm h-10 flex items-center px-4 justify-between bg-white cursor-pointer"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <div className="flex gap-1.5">
+          <span className="text-gray-500">{category}:</span>
+          <span className="text-black">
+            {category === "Category"
+              ? categoryDropDown.category
+              : category === "Sub Category"
+              ? categoryDropDown.subCategory
+              : state}
+          </span>
         </div>
-      
+        <img
+          src="../src/assets/frontend_assets/dropdown_icon.png"
+          className={`w-3 h-5 transform transition-transform ${
+            isOpen ? "rotate-270" : "rotate-90"
+          }`}
+        />
+      </div>
 
       {/* Dropdown Menu */}
       {isOpen && (
@@ -38,7 +43,17 @@ const SortDropDown = ({ category , optionsArray , width }) => {
               key={option}
               className="px-4 py-2 hover:bg-black hover:text-white cursor-pointer"
               onClick={() => {
-                setSelectedOption(option);
+                if (category === "Category")
+                  setCategoryDropDown({
+                    ...categoryDropDown,
+                    category: option,
+                  });
+                else if (category === "Sub Category")
+                  setCategoryDropDown({
+                    ...categoryDropDown,
+                    subCategory: option,
+                  });
+                else setState(option);
                 setIsOpen(false);
               }}
             >

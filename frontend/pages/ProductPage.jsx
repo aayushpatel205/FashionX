@@ -1,66 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
+import { useParams } from "react-router-dom";
+import { getProductById } from "../src/api/userApis";
 
 const ProductPage = () => {
   const [active, setActive] = useState();
+  const { id } = useParams();
+  const [productData, setProductData] = useState();
+  const [selectedSize, setSelectedSize] = useState("S");
+
+  const getProduct = async () => {
+    const response = await getProductById(id);
+    console.log("response: ", response);
+    setProductData(response?.data);
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, []);
   return (
     <div className="w-[100%] flex flex-col gap-32">
       <div className="px-14 mt-10 flex gap-4 h-[550px]">
-        <div className="flex flex-col h-full justify-between">
-          <img
-            src="../src/assets/frontend_assets/p_img1.png"
-            className="h-32 w-28"
-          />
-          <img
-            src="../src/assets/frontend_assets/p_img1.png"
-            className="h-32 w-28"
-          />
-          <img
-            src="../src/assets/frontend_assets/p_img1.png"
-            className="h-32 w-28"
-          />
-          <img
-            src="../src/assets/frontend_assets/p_img1.png"
-            className="h-32 w-28"
-          />
-        </div>
         <div className="h-full w-[33%]">
-          <img
-            className="h-full w-full"
-            src="../src/assets/frontend_assets/p_img1.png"
-          />
+          <img className="h-full w-full" src={productData?.imgUrl} />
         </div>
         <div className="ml-4 pt-2 flex flex-col gap-6 w-[45%]">
           <p className="text-black text-2xl font-medium">
-            Women Round Neck Cotton Top
+            {productData?.productName}
           </p>
           <p className="text-black text-2xl font-medium ">$100</p>
-          <p className="text-gray-500">
-            A lightweight, usually knitted, pullover shirt, close-fitting and
-            with a round neckline and short sleeves, worn as an undershirt or
-            outer garment..
-          </p>
+          <p className="text-gray-500">{productData?.productDescription}</p>
           <p className="font-medium text-gray-500">Select Size</p>
           <div className="flex gap-4">
-            <div className="h-14 w-14 border-2 flex justify-center items-center bg-gray-100 border-gray-200">
-              S
-            </div>
-            <div className="h-14 w-14 border-2 flex justify-center items-center bg-gray-100 border-gray-200">
-              M
-            </div>
-            <div className="h-14 w-14 border-2 flex justify-center items-center bg-gray-100  border-amber-400">
-              L
-            </div>
-            <div className="h-14 w-14 border-2 flex justify-center items-center bg-gray-100 border-gray-200">
-              XL
-            </div>
-            <div className="h-14 w-14 border-2 flex justify-center items-center bg-gray-100 border-gray-200">
-              XXL
-            </div>
+            {productData?.size.map((element) => {
+              return (
+                <div
+                  onClick={()=>setSelectedSize(element)}
+                  className={`h-14 cursor-pointer w-14 border-2 flex justify-center items-center bg-gray-100  ${
+                    selectedSize === element
+                      ? "border-amber-400"
+                      : "border-gray-200"
+                  }`}
+                >
+                  {element}
+                </div>
+              );
+            })}
           </div>
 
           {/* This is button below !! */}
-          <button className="w-[24%] bg-black h-12 text-white text-sm hover:opacity-85 mt-3">
+          <button className="w-[24%] cursor-pointer bg-black h-12 text-white text-sm hover:opacity-85 mt-3">
             ADD TO CART
           </button>
 
@@ -110,16 +99,16 @@ const ProductPage = () => {
         </div>
 
         <div className="w-[75%] flex justify-around flex-wrap gap-y-5">
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
         </div>
       </div>
     </div>
