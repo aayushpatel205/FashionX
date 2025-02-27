@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Link, useLocation , useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useProductData } from "../src/Context/ProductDataContext";
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const path = location.pathname;
+  const { userCartData } = useProductData();
   return (
     <div className={`h-20 px-14 flex justify-between items-center w[100%]`}>
       <Link to={"/"}>
@@ -55,15 +57,17 @@ const Navbar = () => {
             />
             {path !== "/cart" && (
               <p className="bg-black text-white text-sm w-4 h-4 rounded-full flex justify-center items-center absolute right-0 top-[16px]">
-                2
+                {userCartData?.length}
               </p>
             )}
           </div>
         </Link>
         <button
-          onClick={()=>navigate("/login")}
+          onClick={() => navigate("/login")}
           className="w-[55%] uppercase bg-black h-10 text-white text-sm hover:opacity-85 cursor-pointer"
-        >login</button>
+        >
+          login
+        </button>
       </div>
     </div>
   );

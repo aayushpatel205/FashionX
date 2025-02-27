@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import hero_img from "../src/assets/frontend_assets/hero_img.png";
 import ProductCard from "../components/ProductCard";
 import { getAllProducts } from "../src/api/userApis";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const [latestProducts, setLatestProducts] = useState([]);
   const getData = async () => {
     try {
-      const response = await getAllProducts();
-      setLatestProducts(response.data);
+      const response = await getAllProducts("asc");
+      console.log("Homepage: ", response.data);
+      setLatestProducts(response.data.slice(0, 5));
     } catch (error) {
       console.log("error: ", error);
       // toast.error(error.message);
@@ -136,9 +138,11 @@ const HomePage = () => {
             className="w-[50%] h-12 pl-4 pr-2 border-2 border-t-gray-300 border-b-gray-300 border-l-gray-300 text-sm outline-none"
             placeholder="Enter your email id"
           />
-          <button className="w-[20%] bg-black h-12 text-white text-sm hover:opacity-85">
-            SUBSCRIBE
-          </button>
+          <Link className="w-[20%]" to="/sign-up">
+            <button className="w-[100%] bg-black h-12 text-white text-sm hover:opacity-85 cursor-pointer">
+              SUBSCRIBE
+            </button>
+          </Link>
         </div>
       </div>
     </div>

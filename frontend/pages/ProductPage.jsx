@@ -1,61 +1,111 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { useParams } from "react-router-dom";
 import { getProductById } from "../src/api/userApis";
+import { useProductData } from "../src/Context/ProductDataContext";
+import { ToastContainer, toast } from "react-toastify";
+import { toastStyle } from "../src/toastStyle";
 
 const ProductPage = () => {
-  const [active, setActive] = useState();
   const { id } = useParams();
-  const [productData, setProductData] = useState();
+  const [productData, setProductData] = useState(null);
   const [selectedSize, setSelectedSize] = useState("S");
+  const [loading, setLoading] = useState(true);
+  const { userCartData, setUserCartData } = useProductData();
 
   const getProduct = async () => {
     const response = await getProductById(id);
-    console.log("response: ", response);
     setProductData(response?.data);
+    setLoading(false);
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getProduct();
   }, []);
+
+  // Render loader until data is loaded
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="w-16 h-16 border-4 border-black rounded-full border-t-transparent animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-[100%] flex flex-col gap-32">
       <div className="px-14 mt-10 flex gap-4 h-[550px]">
         <div className="h-full w-[33%]">
-          <img className="h-full w-full" src={productData?.imgUrl} />
+          <img
+            className="h-full w-full"
+            src={productData?.imgUrl}
+            alt="Product"
+          />
         </div>
         <div className="ml-4 pt-2 flex flex-col gap-6 w-[45%]">
           <p className="text-black text-2xl font-medium">
             {productData?.productName}
           </p>
-          <p className="text-black text-2xl font-medium ">$100</p>
+          <p className="text-black text-2xl font-medium">
+            $ {productData?.price}
+          </p>
           <p className="text-gray-500">{productData?.productDescription}</p>
           <p className="font-medium text-gray-500">Select Size</p>
           <div className="flex gap-4">
-            {productData?.size.map((element) => {
-              return (
-                <div
-                  onClick={()=>setSelectedSize(element)}
-                  className={`h-14 cursor-pointer w-14 border-2 flex justify-center items-center bg-gray-100  ${
-                    selectedSize === element
-                      ? "border-amber-400"
-                      : "border-gray-200"
-                  }`}
-                >
-                  {element}
-                </div>
-              );
-            })}
+            {productData?.size.map((element) => (
+              <div
+                key={element}
+                onClick={() => setSelectedSize(element)}
+                className={`h-14 cursor-pointer w-14 border-2 flex justify-center items-center bg-gray-100 ${
+                  selectedSize === element
+                    ? "border-amber-400"
+                    : "border-gray-200"
+                }`}
+              >
+                {element}
+              </div>
+            ))}
           </div>
 
-          {/* This is button below !! */}
-          <button className="w-[24%] cursor-pointer bg-black h-12 text-white text-sm hover:opacity-85 mt-3">
+          <button
+            className="w-[24%] cursor-pointer bg-black h-12 text-white text-sm hover:opacity-85 mt-3"
+            onClick={() => {
+              if (
+                userCartData.some(
+                  (item) =>
+                    item._id === productData._id &&
+                    item.selectedSize === selectedSize
+                )
+              ) {
+                setUserCartData(
+                  userCartData.map((item) => {
+                    if (
+                      item._id === productData._id &&
+                      item.selectedSize === selectedSize
+                    ) {
+                      return {
+                        ...item,
+                        quantity: item.quantity + 1,
+                      };
+                    }
+                    return item;
+                  })
+                );
+              } else {
+                setUserCartData([
+                  ...userCartData,
+                  { ...productData, selectedSize, quantity: 1 },
+                ]);
+              }
+            }}
+          >
             ADD TO CART
           </button>
 
           <div className="w-[70%] h-[2px] bg-gray-200 mt-4"></div>
 
-          <div className="flex flex-col gap ml-2">
+          <div className="flex flex-col gap ml-2 gap-1">
             <p className="text-gray-500">100% Original Product</p>
             <p className="text-gray-500">
               Cash on delivery is available on this product.
@@ -69,7 +119,7 @@ const ProductPage = () => {
 
       <div className="w-[80%] border-gray-200 h-52 ml-14">
         <div className="flex h-12">
-          <p className="h-12 border-x border-t border-gray-200  w-[12%] flex justify-center items-center font-medium text-sm text-gray-700">
+          <p className="h-12 border-x border-t border-gray-200 w-[12%] flex justify-center items-center font-medium text-sm text-gray-700">
             Description
           </p>
           <p className="h-12 border-r border-t border-gray-200 w-[12%] flex justify-center items-center font-medium text-sm text-gray-700 bg-gray-100">
@@ -99,18 +149,10 @@ const ProductPage = () => {
         </div>
 
         <div className="w-[75%] flex justify-around flex-wrap gap-y-5">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {/* Additional content can be added here */}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

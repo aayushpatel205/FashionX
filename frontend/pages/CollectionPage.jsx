@@ -2,28 +2,65 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import SortDropDown from "../components/SortDropDown";
-import { getAllProducts } from "../src/api/userApis";
-import { ToastContainer, toast } from "react-toastify";
-import { toastStyle } from "../src/toastStyle";
+import { getProductByCategory } from "../src/api/userApis";
+import { ToastContainer } from "react-toastify";
 
 const CollectionPage = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [allProducts, setAllProducts] = useState([]);
+  const [sortBy, setSortBy] = useState("Low to High");
+  const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+    category: [],
+    subCategory: [],
+  });
 
-  const getData = async () => {
-    try {
-      const response = await getAllProducts();
-      setAllProducts(response.data);
-    } catch (error) {
-      console.log("error: ", error);
-      // toast.error(error.message);
-    }
-  };
+  const sortOptionsArray = ["Low to High", "High to Low"];
+  const filterCategory = ["Men", "Women", "Kids"];
+  const filterSubCategory = ["Topwear", "Bottomwear", "Winterwear"];
 
   useEffect(() => {
-    getData();
-  }, []);
+    const sortedProducts = [...allProducts].sort((a, b) => {
+      if (sortBy === "Low to High") {
+        return a.price - b.price;
+      } else if (sortBy === "High to Low") {
+        return b.price - a.price;
+      }
+    });
+    setAllProducts(sortedProducts);
+  }, [sortBy]);
+
+  useEffect(() => {
+    const categoryString = filters.category.join(",");
+    const subCategoryString = filters.subCategory.join(",");
+    const params = {
+      "Low to High": "asc",
+      "High to Low": "desc",
+    };
+    const getProductsByCategory = async () => {
+      try {
+        const response = await getProductByCategory(
+          categoryString,
+          subCategoryString,
+          params[sortBy]
+        );
+        setAllProducts(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.log("Error: ", error);
+      }
+    };
+    getProductsByCategory();
+  }, [filters.category, filters.subCategory]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="w-16 h-16 border-4 border-black rounded-full border-t-transparent animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center w-full relative">
@@ -54,36 +91,64 @@ const CollectionPage = () => {
             <div className="w-[100%] border-gray-300 border-2 h-[150px] p-4">
               <p>CATEGORIES</p>
               <div className="mt-2 flex flex-col gap-2">
-                <div className="flex gap-2 items-center">
-                  <input type="checkbox" className="h-4 w-4 accent-black" />
-                  <span>Men</span>
-                </div>
-                <div className="flex gap-2 items-center">
-                  <input type="checkbox" className="h-4 w-4 accent-black" />
-                  <span>Women</span>
-                </div>
-                <div className="flex gap-2 items-center">
-                  <input type="checkbox" className="h-4 w-4 accent-black" />
-                  <span>Kids</span>
-                </div>
+                {filterCategory.map((element, index) => {
+                  return (
+                    <div className="flex gap-2 items-center" key={index}>
+                      <input
+                        type="checkbox"
+                        className="h-4 w-4 accent-black"
+                        onChange={() => {
+                          if (filters.category.includes(element)) {
+                            setFilters({
+                              ...filters,
+                              category: filters.category.filter(
+                                (item) => item !== element
+                              ),
+                            });
+                          } else {
+                            setFilters({
+                              ...filters,
+                              category: [...filters.category, element],
+                            });
+                          }
+                        }}
+                      />
+                      <span>{element}</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
             <div className="w-[100%] border-gray-300 border-2 h-[150px] p-4 mt-2">
               <p>TYPE</p>
               <div className="mt-2 flex flex-col gap-2">
-                <div className="flex gap-2 items-center">
-                  <input type="checkbox" className="h-4 w-4 accent-black" />
-                  <span>Topwear</span>
-                </div>
-                <div className="flex gap-2 items-center">
-                  <input type="checkbox" className="h-4 w-4 accent-black" />
-                  <span>Bottomwear</span>
-                </div>
-                <div className="flex gap-2 items-center">
-                  <input type="checkbox" className="h-4 w-4 accent-black" />
-                  <span>Winterwear</span>
-                </div>
+                {filterSubCategory.map((element, index) => {
+                  return (
+                    <div className="flex gap-2 items-center" key={index}>
+                      <input
+                        type="checkbox"
+                        className="h-4 w-4 accent-black"
+                        onChange={() => {
+                          if (filters.subCategory.includes(element)) {
+                            setFilters({
+                              ...filters,
+                              subCategory: filters.subCategory.filter(
+                                (item) => item !== element
+                              ),
+                            });
+                          } else {
+                            setFilters({
+                              ...filters,
+                              subCategory: [...filters.subCategory, element],
+                            });
+                          }
+                        }}
+                      />
+                      <span>{element}</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -107,21 +172,28 @@ const CollectionPage = () => {
               </button>
               <SortDropDown
                 category={"Sort By: Price"}
-                optionsArray={[
-                  "Low to High",
-                  "High to Low",
-                  "High to medium",
-                  "Medium to High",
-                ]}
+                optionsArray={sortOptionsArray}
+                state={sortBy}
+                setState={setSortBy}
               />
             </div>
           </div>
 
           {/* Product Grid */}
           <div className="mt-4 flex flex-wrap gap-y-5 gap-8">
-            {allProducts.map((element, index) => (
-              <ProductCard key={index} product={element} />
-            ))}
+            {allProducts.length > 0 ? (
+              allProducts?.map((element, index) => (
+                <ProductCard key={index} product={element} />
+              ))
+            ) : (
+              <div className="flex gap-7 items-center">
+                <p className="text-3xl mt-6">No Products found</p>
+                <img
+                  src="../src/assets/admin_assets/no-order.png"
+                  className="w-16 h-16 mt-6"
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
