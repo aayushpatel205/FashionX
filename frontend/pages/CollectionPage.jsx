@@ -182,8 +182,8 @@ const CollectionPage = () => {
           {/* Product Grid */}
           <div className="mt-4 flex flex-wrap gap-y-5 gap-8">
             {allProducts.length > 0 ? (
-              allProducts?.map((element, index) => (
-                <ProductCard key={index} product={element} />
+              allProducts?.map((element) => (
+                <ProductCard key={element?._id} product={element} />
               ))
             ) : (
               <div className="flex gap-7 items-center">

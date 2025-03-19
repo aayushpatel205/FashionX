@@ -16,3 +16,12 @@ export const addProduct = async (product) => {
     throw error;
   }
 }
+
+export const adminLogout = async () => {
+  try {
+    const response = await axiosInstance.delete("/admin/logout");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

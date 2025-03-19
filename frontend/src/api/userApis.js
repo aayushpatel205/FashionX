@@ -3,10 +3,10 @@ import axiosInstance from "../../axiosInstance";
 
 export const getAllProducts = async (sort) => {
   try {
-    const response = await axiosInstance.get("/user/get-all-products",{
+    const response = await axiosInstance.get("/user/get-all-products", {
       params: {
-        sort
-      }
+        sort,
+      },
     });
     return response.data;
   } catch (error) {
@@ -27,16 +27,41 @@ export const getProductById = async (id) => {
   }
 };
 
-export const getProductByCategory = async (category, subCategory,sort) => {
+export const getProductByCategory = async (category, subCategory, sort) => {
   try {
     const response = await axiosInstance.get(`/user/get-by-category`, {
       params: {
         category,
         subCategory,
-        sort
+        sort,
       },
     });
     return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const userSignUp = async (name, email, password) => {
+  try {
+    const response = await axiosInstance.post("/user/sign-up", {
+      name,
+      email,
+      password,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const userLogin = async (email, password) => {
+  try {
+    const response = await axiosInstance.post("/user/login", {
+      email,
+      password,
+    });
+    return response;
   } catch (error) {
     throw error;
   }

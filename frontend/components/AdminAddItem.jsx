@@ -42,13 +42,7 @@ const AdminAddItem = () => {
       if (Object.values(productDetails).some((value) => !value) || !imagePath)
         return;
       if (productDetails.price < 0) return;
-      const imgUrl = await uploadImage(imagePath);
-      // console.log("New created object: ", {
-      //   ...productDetails,
-      //   ...categoryDropDown,
-      //   deliveryTime,
-      //   imgUrl,
-      // });
+      const imgUrl = await uploadImage(imagePath,"product");
       const response = await addProduct({
         ...productDetails,
         ...categoryDropDown,
@@ -77,7 +71,7 @@ const AdminAddItem = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 border-l-1 pl-10 border-gray-400 py-4">
         <p className="text-xl text-gray-400 font-medium">Upload Image</p>
         <div className="h-28 w-28 flex gap-2" onClick={handleImageClick}>
           <img

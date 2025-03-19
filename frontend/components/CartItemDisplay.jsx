@@ -12,7 +12,7 @@ const CartItemDisplay = ({
   useEffect(() => {
     setUserCartData(
       userCartData.map((item) => {
-        if (item._id === element._id) {
+        if (item._id === element._id && item.selectedSize === element.selectedSize) {
           return { ...item, quantity: Number(quantity) };
         }
         return item;
@@ -72,7 +72,7 @@ const CartItemDisplay = ({
             }}
             type="number"
             value={quantity}
-            className="h-8 w-24 px-2 py-2 outline-none border-2 border-gray-200"
+            className="h-8 w-24 px-2 py-2 outline-none border-2 border-gray-200 text-center cursor-pointer caret-transparent"
           />
         )}
 

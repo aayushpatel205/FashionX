@@ -9,7 +9,6 @@ const HomePage = () => {
   const getData = async () => {
     try {
       const response = await getAllProducts("asc");
-      console.log("Homepage: ", response.data);
       setLatestProducts(response.data.slice(0, 5));
     } catch (error) {
       console.log("error: ", error);
@@ -58,7 +57,7 @@ const HomePage = () => {
 
       <div className="w-[80%] flex gap-6 flex-wrap justify-center">
         {latestProducts?.map((element) => {
-          return <ProductCard product={element} />;
+          return <ProductCard product={element} key={element._id} />;
         })}
       </div>
 
@@ -77,7 +76,7 @@ const HomePage = () => {
 
       <div className="w-[80%] flex gap-6 flex-wrap justify-center ">
         {latestProducts?.map((element) => {
-          return <ProductCard product={element} />;
+          return <ProductCard product={element} key={element._id}/>;
         })}
       </div>
 

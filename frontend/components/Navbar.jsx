@@ -18,35 +18,49 @@ const Navbar = () => {
       </Link>
       <div className="flex gap-10">
         <Link to="/">
-          <p className="hover:underline underline-offset-4 cursor-pointer">
+          <p
+            className={`cursor-pointer text-black bg-white py-1 ${
+              path === "/" ? "invert px-2" : ""
+            }`}
+          >
             HOME
           </p>
         </Link>
 
         <Link to="/collections">
-          <p className="hover:underline underline-offset-4 cursor-pointer">
+          <p
+            className={`cursor-pointer text-black bg-white py-1 ${
+              path === "/collections" ? "invert px-2" : ""
+            }`}
+          >
             COLLECTION
           </p>
         </Link>
 
         <Link to={"/about-us"}>
-          <p className="hover:underline underline-offset-4 cursor-pointer">
+          <p
+            className={` cursor-pointer text-black bg-white py-1 ${
+              path === "/about-us" ? "invert px-2" : ""
+            }`}
+          >
             ABOUT
           </p>
         </Link>
-        <Link to={"/rewards"}>
+        {/* <Link to={"/rewards"}>
           <p className="hover:underline underline-offset-4 cursor-pointer">
             REWARDS
           </p>
-        </Link>
+        </Link> */}
       </div>
       <div className="flex justify-between items-center w-[15%]">
         <div>
-          <img
-            src="../src/assets/admin_assets/profile-candidate.png"
-            className="h-6 w-6 cursor-pointer"
-            onClick={() => setIsOpen(!isOpen)}
-          />
+          <Link to="/user-profile">
+            <img
+              src="../src/assets/admin_assets/profile-candidate.png"
+              className="h-6 w-6 cursor-pointer"
+              onClick={() => setIsOpen(!isOpen)}
+            />
+          </Link>
         </div>
 
         <Link to={"/cart"}>

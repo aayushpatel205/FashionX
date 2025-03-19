@@ -11,10 +11,10 @@ const AdminOrdersViewPage = () => {
     "Delivered",
   ];
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 border-l-1 pl-10 border-gray-400 py-4">
       <p className="text-xl text-gray-400 font-medium">Orders Page</p>
 
-      <div className="w-[85%] border-2 border-gray-200 h-[300px] p-5 flex gap-5 items-start my-2">
+      <div className="w-[88%] border-2 border-gray-200 p-5 flex gap-5 items-start my-2">
         <div className="h-14 w-14 border-2 border-gray-200 flex justify-center items-center ">
           <img
             src="../src/assets/admin_assets/logistics.png"
@@ -57,7 +57,7 @@ const AdminOrdersViewPage = () => {
         />
       </div>
 
-      <div className="w-[85%] border-2 border-gray-200 h-[300px] p-5 flex gap-5 items-start my-2">
+      <div className="w-[88%] border-2 border-gray-200 p-5 flex gap-5 items-start my-2">
         <div className="h-14 w-14 border-2 border-gray-200 flex justify-center items-center ">
           <img
             src="../src/assets/admin_assets/logistics.png"
@@ -100,7 +100,7 @@ const AdminOrdersViewPage = () => {
         />
       </div>
 
-      <div className="w-[85%] border-2 border-gray-200 h-[300px] p-5 flex gap-5 items-start my-2">
+      <div className="w-[88%] border-2 border-gray-200 p-5 flex gap-5 items-start my-2">
         <div className="h-14 w-14 border-2 border-gray-200 flex justify-center items-center ">
           <img
             src="../src/assets/admin_assets/logistics.png"
@@ -142,6 +142,8 @@ const AdminOrdersViewPage = () => {
           width={true}
         />
       </div>
+
+      
     </div>
   );
 };

@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CartItemDisplay from "../components/CartItemDisplay";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useProductData } from "../src/Context/ProductDataContext";
 import emptyCart from "../src/assets/admin_assets/empty-cart.png";
 
 const CartPage = () => {
   const navigate = useNavigate();
-  const { userCartData, setUserCartData } = useProductData();
+  // const [cost, setCost] = useState(0);
+  const { userCartData, setUserCartData, totalCost, setTotalCost } =
+    useProductData();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    setTotalCost(
+      userCartData.reduce((acc, curr) => acc + curr.price * curr.quantity, 0)
+    );
+  }, [userCartData]);
   return (
     <div className="px-14 mt-16 flex flex-col gap-7">
       <div className="flex gap-2">
@@ -55,7 +67,7 @@ const CartPage = () => {
             <div>
               <div className="flex justify-between items-center mt-4 px-2 py-1">
                 <p className="text-gray-500">Subtotal</p>
-                <p className="text-gray-700">$100</p>
+                <p className="text-gray-700">${totalCost}</p>
               </div>
               <div className="h-[1px] bg-gray-200"></div>
             </div>
@@ -71,13 +83,19 @@ const CartPage = () => {
             <div>
               <div className="flex justify-between items-center mt-4 px-2 py-1">
                 <p className="text-gray-700 font-semibold">Total</p>
-                <p className="text-gray-700">$110</p>
+                <p className="text-gray-700">${totalCost + 10}</p>
               </div>
             </div>
 
             <button
-              className="w-[50%] mt-5 self-end bg-black h-12 text-white text-sm hover:opacity-85"
-              onClick={() => navigate("/payment")}
+              className="w-[50%] mt-5 self-end bg-black h-12 text-white text-sm hover:opacity-85 cursor-pointer"
+              onClick={() => navigate("/payment/success")}
+            >
+              PROCEED TO CHECKOUT
+            </button>
+            <button
+              className="w-[50%] mt-5 self-end bg-black h-12 text-white text-sm hover:opacity-85 cursor-pointer"
+              onClick={() => navigate("/payment/error")}
             >
               PROCEED TO CHECKOUT
             </button>

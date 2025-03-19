@@ -16,6 +16,10 @@ import AdminLoginPage from "../pages/admin/AdminLoginPage.jsx";
 import AdminLayout from "../pages/admin/AdminLayout.jsx";
 import AdminHomePage from "../pages/admin/AdminHomePage.jsx";
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
+import PaymentSuccessPage from "../pages/PaymentSuccessPage.jsx";
+import PaymentErrorPage from "../pages/PaymentErrorPage.jsx";
+import ProfilePage from "../pages/ProfilePage.jsx";
+import UserProtectedRoute from "../components/UserProtectedRoute.jsx";
 const App = () => {
   return (
     <Routes>
@@ -23,13 +27,20 @@ const App = () => {
         <Route index element={<HomePage />} />
         <Route path="/collections" element={<CollectionPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/payment" element={<PaymentPage />} />
-        <Route path="/my-order" element={<MyOrderPage />} />
+
+        <Route element={<UserProtectedRoute />}>
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/my-order" element={<MyOrderPage />} />
+        </Route>
+        
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/rewards" element={<RewardsPage />} />
+        <Route path="payment/success" element={<PaymentSuccessPage />} />
+        <Route path="payment/error" element={<PaymentErrorPage />} />
+        <Route path="/user-profile" element={<ProfilePage />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminLoginPage />} />

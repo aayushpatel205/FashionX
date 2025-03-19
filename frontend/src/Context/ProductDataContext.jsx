@@ -5,8 +5,9 @@ const ProductDataContext = createContext();
 
 export const DataContextProvider = ({ children }) => {
     const [userCartData, setUserCartData] = useState([]);
+    const [totalCost , setTotalCost] = useState(0);
     return (
-        <ProductDataContext.Provider value={{ userCartData, setUserCartData }}>
+        <ProductDataContext.Provider value={{ userCartData, setUserCartData , totalCost , setTotalCost }}>
             {children}
         </ProductDataContext.Provider>
     );

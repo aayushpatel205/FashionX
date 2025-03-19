@@ -17,9 +17,9 @@ const AdminHomePage = () => {
   };
   return (
     <div className="min-h-[150%] w-[100%] flex">
-      <div className="w-[18%] h-full border-r border-b border-gray-400 py-10 flex flex-col items-end gap-3">
+      <div className="w-[18%] h-full py-10 flex flex-col items-end gap-3">
         <div
-          className={`h-10 w-[80%] border-y border-l border-gray-400 px-3 flex gap-3 items-center bg-white hover:border-y-2 hover:border-l-2 cursor-pointer ${
+          className={`h-10 w-[80%] border border-gray-400 px-3 flex gap-3 items-center bg-white hover:border-y-2 hover:border-l-2 cursor-pointer ${
             activePage === "Add Items" && "invert"
           }`}
           onClick={() => setActivePage("Add Items")}
@@ -31,7 +31,7 @@ const AdminHomePage = () => {
           <p className="font-medium">Add Items</p>
         </div>
         <div
-          className={`h-10 w-[80%] border-y border-l border-gray-400 px-3 flex gap-3 items-center bg-white hover:border-y-2 hover:border-l-2 cursor-pointer ${
+          className={`h-10 w-[80%] border border-gray-400 px-3 flex gap-3 items-center bg-white hover:border-y-2 hover:border-l-2 cursor-pointer ${
             activePage === "List Items" && "invert"
           }`}
           onClick={() => setActivePage("List Items")}
@@ -43,7 +43,7 @@ const AdminHomePage = () => {
           <p className="font-medium">List Items</p>
         </div>
         <div
-          className={`h-10 w-[80%] border-y border-l border-gray-400 px-3 flex gap-3 items-center bg-white hover:border-y-2 hover:border-l-2 cursor-pointer ${
+          className={`h-10 w-[80%] border border-gray-400 px-3 flex gap-3 items-center bg-white hover:border-y-2 hover:border-l-2 cursor-pointer ${
             activePage === "Orders" && "invert"
           }`}
           onClick={() => setActivePage("Orders")}
