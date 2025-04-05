@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import UserDetails from "../components/UserDetails";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -12,7 +13,8 @@ const PaymentPage = () => {
           <div className="ml-2 w-10 h-[2px] bg-gray-700 mt-4"></div>
         </div>
 
-        <div className="flex flex-col gap-5">
+        <UserDetails/>
+        {/* <div className="flex flex-col gap-5">
           <div className="flex justify-between">
             <input
               className="w-[48%] border-1 border-gray-200 h-10 px-2 outline-none"
@@ -57,7 +59,7 @@ const PaymentPage = () => {
             className="w-[100%] border-1 border-gray-200 h-10 px-2 outline-none"
             placeholder="Phone"
           />
-        </div>
+        </div> */}
       </div>
 
       <div className="w-[38%] flex flex-col gap-7">

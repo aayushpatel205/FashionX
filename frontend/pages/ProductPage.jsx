@@ -1,28 +1,57 @@
 import React, { useContext, useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { useParams } from "react-router-dom";
-import { getProductById } from "../src/api/userApis";
+import {
+  deleteFromWishlist,
+  getProductById,
+  userUpdateDetails,
+} from "../src/api/userApis";
 import { useProductData } from "../src/Context/ProductDataContext";
 import { ToastContainer, toast } from "react-toastify";
+import saveIcon from "../src/assets/frontend_assets/save-light.png";
 import { toastStyle } from "../src/toastStyle";
+import { useUserData } from "../src/Context/UserDataContext";
+import { getUserDetails } from "../src/api/userApis";
+import { useLocation } from "react-router-dom";
 
 const ProductPage = () => {
   const { id } = useParams();
+  const { userData } = useUserData();
   const [productData, setProductData] = useState(null);
   const [selectedSize, setSelectedSize] = useState("S");
   const [loading, setLoading] = useState(true);
   const { userCartData, setUserCartData } = useProductData();
+  const [wishlistData, setWishlistData] = useState([]);
+  const [isSaved, setIsSaved] = useState(false);
 
   const getProduct = async () => {
     const response = await getProductById(id);
     setProductData(response?.data);
     setLoading(false);
+    console.log("Hiiii");
+  };
+
+  const getWishlistData = async () => {
+    const category = "wishlist";
+    const response = await getUserDetails(userData?.data.id, category);
+    const productIDArray = response?.data.userWishlist.map((item) => item._id);
+    setWishlistData(response?.data.userWishlist);
+    productIDArray.includes(id) ? setIsSaved(true) : setIsSaved(false);
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
     getProduct();
   }, []);
+
+  useEffect(() => {
+    getWishlistData();
+  }, [userData]);
+
+  useEffect(() => {
+    if (userCartData?.length > 0)
+      sessionStorage.setItem("cart", JSON.stringify(userCartData));
+  }, [userCartData]);
 
   // Render loader until data is loaded
   if (loading) {
@@ -36,7 +65,7 @@ const ProductPage = () => {
   return (
     <div className="w-[100%] flex flex-col gap-32">
       <div className="px-14 mt-10 flex gap-4 h-[550px]">
-        <div className="h-full w-[33%]">
+        <div className="h-[100%] w-[33%]">
           <img
             className="h-full w-full"
             src={productData?.imgUrl}
@@ -68,18 +97,56 @@ const ProductPage = () => {
             ))}
           </div>
 
+          {userData?.isVerified && (
+            <div className="w-fit h-fit border-2 border-gray-200 px-3 py-2 flex items-center gap-3">
+              <img
+                onClick={async () => {
+                  try {
+                    if (isSaved) {
+                      console.log("Thiss will runnn");
+                      const response = await deleteFromWishlist(
+                        userData?.data.id,
+                        productData?._id
+                      );
+                      console.log("deleted: ",response);
+                      toast("Removed from wishlist",toastStyle);
+                    } else {
+                      const response = await userUpdateDetails({
+                        user_id: userData?.data.id,
+                        product: productData,
+                        isWishlist: true,
+                      });
+                      console.log("added into wishlist: ", response?.data.message);
+                      toast("Added to wishlist",toastStyle);
+                    }
+                    setIsSaved(!isSaved);
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }}
+                src={
+                  isSaved
+                    ? "../src/assets/frontend_assets/save-dark.png"
+                    : "../src/assets/frontend_assets/save-light.png"
+                }
+                className="h-5 cursor-pointer"
+              />
+              <p>Add to Wishlist</p>
+            </div>
+          )}
+
           <button
-            className="w-[24%] cursor-pointer bg-black h-12 text-white text-sm hover:opacity-85 mt-3"
+            className="w-[24%] cursor-pointer bg-black h-12 text-white text-sm hover:opacity-85"
             onClick={() => {
               if (
-                userCartData.some(
+                userCartData?.some(
                   (item) =>
                     item._id === productData._id &&
                     item.selectedSize === selectedSize
                 )
               ) {
                 setUserCartData(
-                  userCartData.map((item) => {
+                  userCartData?.map((item) => {
                     if (
                       item._id === productData._id &&
                       item.selectedSize === selectedSize
@@ -94,7 +161,7 @@ const ProductPage = () => {
                 );
               } else {
                 setUserCartData([
-                  ...userCartData,
+                  ...(userCartData || []), // Ensure it's an array before spreading
                   { ...productData, selectedSize, quantity: 1 },
                 ]);
               }
@@ -103,7 +170,7 @@ const ProductPage = () => {
             ADD TO CART
           </button>
 
-          <div className="w-[70%] h-[2px] bg-gray-200 mt-4"></div>
+          {/* <div className="w-[70%] h-[2px] bg-gray-200 mt-1"></div> */}
 
           <div className="flex flex-col gap ml-2 gap-1">
             <p className="text-gray-500">100% Original Product</p>

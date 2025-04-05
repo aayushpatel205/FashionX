@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import hero_img from "../src/assets/frontend_assets/hero_img.png";
 import ProductCard from "../components/ProductCard";
 import { getAllProducts } from "../src/api/userApis";
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
 
 const HomePage = () => {
   const [latestProducts, setLatestProducts] = useState([]);
   const getData = async () => {
     try {
       const response = await getAllProducts("asc");
-      setLatestProducts(response.data.slice(0, 5));
+      const length = response?.data.length;
+      setLatestProducts(response.data.slice(length - 5 , length));
     } catch (error) {
       console.log("error: ", error);
       // toast.error(error.message);

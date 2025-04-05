@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Layout from "../Layout";
@@ -32,6 +32,7 @@ const App = () => {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/my-order" element={<MyOrderPage />} />
+          <Route path="/user-profile" element={<ProfilePage />} />
         </Route>
         
         <Route path="/about-us" element={<AboutUsPage />} />
@@ -40,7 +41,7 @@ const App = () => {
         <Route path="/rewards" element={<RewardsPage />} />
         <Route path="payment/success" element={<PaymentSuccessPage />} />
         <Route path="payment/error" element={<PaymentErrorPage />} />
-        <Route path="/user-profile" element={<ProfilePage />} />
+        
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminLoginPage />} />

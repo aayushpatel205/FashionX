@@ -3,7 +3,7 @@ import { useContext, createContext } from "react";
 
 const ProductDataContext = createContext();
 
-export const DataContextProvider = ({ children }) => {
+export const ProductDataContextProvider = ({ children }) => {
     const [userCartData, setUserCartData] = useState([]);
     const [totalCost , setTotalCost] = useState(0);
     return (

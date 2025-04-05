@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import axiosInstance from "../axiosInstance";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const UserProtectedRoute = ({ children }) => {
     const navigate = useNavigate();
@@ -8,7 +8,6 @@ const UserProtectedRoute = ({ children }) => {
         try {
             console.log("HIIIIIII")
             const response = await axiosInstance.get("user/auth/verify");
-            console.log(response);
         } catch (error) {
             navigate("/login");
         }
@@ -17,7 +16,7 @@ const UserProtectedRoute = ({ children }) => {
     useEffect(()=>{
         verifyUser();
     },[])
-  return <div>{children}</div>;
+  return <Outlet/>;
 };
 
 export default UserProtectedRoute;

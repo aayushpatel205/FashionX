@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import { toastStyle } from "../src/toastStyle";
 
 const CartItemDisplay = ({
   location,
@@ -23,7 +21,7 @@ const CartItemDisplay = ({
   return (
     <>
       <div className="border-t-2 border-b-2 w-[100%] border-gray-200 flex justify-between items-center py-3 px-2 ">
-        <div className="flex gap-3 items-center w-[30%]">
+        <div className="flex gap-3 items-center w-[35%]">
           <img src={element?.imgUrl} className="h-28 w-24" />
 
           {location === "/my-order" ? (
@@ -42,7 +40,7 @@ const CartItemDisplay = ({
               </span>
             </div>
           ) : (
-            <div className="flex flex-col self-start gap-3 mt-1 w-[80%]">
+            <div className="flex flex-col self-start gap-3 mt-1 w-[85%]">
               <p className="text-gray-700 font-medium">
                 {element?.productName}
               </p>
@@ -83,7 +81,9 @@ const CartItemDisplay = ({
         ) : (
           <div
             onClick={() => {
-              toast.success("Item removed from cart", toastStyle);
+              if(userCartData.length === 1){
+                sessionStorage.removeItem("cart");
+              }
               setUserCartData(
                 userCartData.filter((item) => !(item._id === element._id && item.selectedSize === element.selectedSize))
               );
@@ -96,7 +96,6 @@ const CartItemDisplay = ({
           </div>
         )}
       </div>
-      <ToastContainer/>
     </>
   );
 };

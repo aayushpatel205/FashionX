@@ -2,10 +2,12 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import SortDropDown from "../components/SortDropDown";
-import { getProductByCategory } from "../src/api/userApis";
+import { getProductByCategory, getProductBySearch } from "../src/api/userApis";
 import { ToastContainer } from "react-toastify";
+import { useUserData } from "../src/Context/UserDataContext";
 
 const CollectionPage = () => {
+  const { userData, setUserData } = useUserData();
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [allProducts, setAllProducts] = useState([]);
@@ -54,6 +56,15 @@ const CollectionPage = () => {
     getProductsByCategory();
   }, [filters.category, filters.subCategory]);
 
+  // useEffect(() => {
+  //   getProductsBySearch();
+  // }, [searchQuery]);
+
+  useEffect(() => {
+    if(!userData.browsingHistory) return
+    sessionStorage.setItem("browsingHistory", JSON.stringify(userData.browsingHistory));
+  }, [userData.browsingHistory]);
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -74,11 +85,33 @@ const CollectionPage = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 focus:outline-none h-10"
           />
+
           <button
-            onClick={() => setShowSearch(false)}
+            onClick={() => {
+              console.log("Search Query: ", searchQuery);
+              setUserData({
+                ...userData,
+                browsingHistory: [...(userData?.browsingHistory ?? []), searchQuery], 
+              });              
+              const getProductsBySearch = async () => {
+                try {
+                  const searchedProducts = [];
+                  setLoading(true);
+                  const response = await getProductBySearch(searchQuery);
+                  response?.data.data.map((element) => {
+                    return searchedProducts.push(element?.item);
+                  });
+                  setAllProducts(searchedProducts);
+                  setLoading(false);
+                } catch (error) {
+                  console.log("Error: ", error);
+                }
+              };
+              getProductsBySearch(searchQuery);
+            }}
             className="w-[10%] uppercase bg-black h-10 text-white text-sm hover:opacity-85 cursor-pointer"
           >
-            close
+            search
           </button>
         </div>
       )}

@@ -7,6 +7,25 @@ const userSchema = mongoose.Schema({
         minlength: 3,
         maxlength: 50
     },
+    firstName: {
+        type: String,
+        minlength: 3,
+        maxlength: 50
+    },
+    lastName: {
+        type: String,
+        minlength: 3,
+        maxlength: 50
+    },
+    phoneNumber: {
+        type: String,
+        validate: {
+            validator: function (v) {
+                return /^\d{10}$/.test(v);
+            },
+            message: props => `${props.value} is not a valid phone number`
+        }
+    },
     email: {
         type: String,
         required: [true, "Please provide an email"],
@@ -31,7 +50,7 @@ const userSchema = mongoose.Schema({
         street: String,
         city: String,
         state: String,
-        zipCode: String,
+        zipcode: String,
         country: String
     },
     preferences: {
@@ -62,6 +81,12 @@ const userSchema = mongoose.Schema({
             type: Number,
             default: 1
         }
+    }],
+    wishlist: [{
+        price: Number,
+        category: String,
+        imgUrl: String,
+        productName: String
     }]
 });
 

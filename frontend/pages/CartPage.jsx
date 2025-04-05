@@ -3,22 +3,29 @@ import CartItemDisplay from "../components/CartItemDisplay";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useProductData } from "../src/Context/ProductDataContext";
 import emptyCart from "../src/assets/admin_assets/empty-cart.png";
+import { useUserData } from "../src/Context/UserDataContext";
 
 const CartPage = () => {
+  const {userData , setUserData} = useUserData();
   const navigate = useNavigate();
   // const [cost, setCost] = useState(0);
   const { userCartData, setUserCartData, totalCost, setTotalCost } =
     useProductData();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    
 
   useEffect(() => {
     setTotalCost(
-      userCartData.reduce((acc, curr) => acc + curr.price * curr.quantity, 0)
+      userCartData?.reduce((acc, curr) => acc + curr.price * curr.quantity, 0)
     );
+    if(userCartData?.length > 0) sessionStorage.setItem("cart", JSON.stringify(userCartData));
+    
+    // else sessionStorage.removeItem("cart");
   }, [userCartData]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    sessionStorage.getItem("cart") && setUserCartData(JSON.parse(sessionStorage.getItem("cart")));
+  }, []);
   return (
     <div className="px-14 mt-16 flex flex-col gap-7">
       <div className="flex gap-2">
@@ -28,8 +35,8 @@ const CartPage = () => {
       </div>
 
       <div className="flex flex-col gap-3">
-        {userCartData.length > 0 ? (
-          userCartData.map((element, index) => {
+        {userCartData?.length > 0 ? (
+          userCartData?.map((element, index) => {
             return (
               <CartItemDisplay
                 element={element}
@@ -55,7 +62,7 @@ const CartPage = () => {
       <CartItemDisplay />
       <CartItemDisplay /> */}
 
-      {userCartData.length > 0 && (
+      {userCartData?.length > 0 && (
         <div className="self-end mt-10 w-[35%]">
           <div className="flex gap-2">
             <p className="text-gray-500 text-2xl">CART</p>

@@ -12,7 +12,7 @@ const PORT = 8002;
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:5175",
+  origin: "http://localhost:5173",
   credentials: true, // This allows cookies to be sent
 };
 app.use(cors(corsOptions));
