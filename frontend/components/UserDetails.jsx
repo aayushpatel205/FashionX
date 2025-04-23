@@ -43,10 +43,9 @@ const UserDetails = () => {
 
 
   return loading ? (
-    <></>
-    // <div className="flex h-screen">
-    //   <div className="w-16 h-16 border-4 border-black rounded-full border-t-transparent animate-spin"></div>
-    // </div>
+    <div className="flex h-screen mt-5 ml-5">
+      <div className="w-16 h-16 border-4 border-black rounded-full border-t-transparent animate-spin"></div>
+    </div>
   ) : (
     <div className="flex flex-col gap-5 w-[85%]">
       <div className="flex justify-between">

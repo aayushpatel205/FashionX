@@ -79,13 +79,16 @@ const LoginPage = () => {
               // Navigate("/profile");
               console.log("response is: ", response);
               setUserData({
+                ...userData,
                 isVerified: true,
                 data: {
                   name: response.data.user.name,
                   email: response.data.user.email,
                   token: response.data.token,
                   id: response.data.user._id
-                }
+                },
+                profilePicture: response?.data.user.profilePicture
+
               });
               navigate("/");
             } catch (error) {

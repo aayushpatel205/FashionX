@@ -1,158 +1,61 @@
-import React, { useState } from "react";
-import { userLogout } from "../src/api/userApis";
-import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { useState } from "react";
 import UserDetails from "../components/UserDetails";
-import { useUserData } from "../src/Context/UserDataContext";
-import UserPreferences from "../components/UserPreferences";
 import UserWishlist from "../components/UserWishlist";
+import MyOrderPage from "./MyOrderPage";
 
 const ProfilePage = () => {
-  const { userData } = useUserData();
-  const renderComponents = {
-    "user-details": <UserDetails />,
-    "preferences": <UserPreferences />,
-    "wishlist": <UserWishlist/>
-  };
-  const [activeComponent, setActiveComponent] = useState("user-details");
-  const navigate = useNavigate();
+  const [imagePreview, setImagePreview] = useState(null);
+
   return (
-    <div className="flex w-[100%] gap-7">
-      <div className="flex flex-col gap-5 ml-20 justify-center items-center w-[35%] mt-10 border-r">
-        <div className="h-[110px] w-[110px] rounded-full mt-5 flex justify-center items-center bg-gray-300">
+    <div className="h-[100%] w-full flex flex-col gap-5 items-center">
+      <div className="flex flex-col items-center justify-center mt-12 gap-5">
+        <div className="h-32 w-32 rounded-full overflow-hidden">
           <img
-            src="../src/assets/admin_assets/profile-candidate.png"
-            className="h-[60%] w-[60%] cursor-pointer"
+            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+            className="h-full w-full object-cover"
           />
         </div>
-        <div className="flex flex-col items-center gap-1">
-          <p className="text-4xl font-medium">{userData?.data.name}</p>
-        </div>
+        <p className="text-center text-4xl font-medium">Aayush Patel</p>
+      </div>
+
+      <div className="w-full flex gap-5 justify-center">
         <button
-          onClick={async () => {
-            try {
-              const response = await userLogout();
-              navigate("/");
-              toast.success(response.data.message);
-            } catch (error) {
-              console.log(error);
-            }
-          }}
-          className="w-[30%] uppercase bg-black h-10 text-white text-sm hover:opacity-85 cursor-pointer"
+          className="w-[15%] mt-5 self-end bg-black h-12 text-white text-sm hover:opacity-85 cursor-pointer uppercase"
+          onClick={()=>{}}
         >
-          Logout
+          upload image
         </button>
-        <div className="w-[100%] flex flex-col items-center gap-3">
-          <div
-            className={`h-10 w-[55%] border border-gray-400 px-3 flex gap-10 items-center bg-white hover:border-2 cursor-pointer`}
-            // onClick={() => setActivePage("Add Items")}
-          >
-            <img
-              src="../../src/assets/admin_assets/plus.png"
-              className="h-6 w-6"
-            />
-            <p className="font-medium">My Orders</p>
-          </div>
 
-          <div
-            className={`h-10 w-[55%] border border-gray-400 px-3 flex gap-10 items-center bg-white hover:border-2 cursor-pointer ${
-              activeComponent === "wishlist" && "invert"
-            }`}
-            onClick={() => setActiveComponent("wishlist")}
-          >
-            <img
-              src="../../src/assets/admin_assets/plus.png"
-              className="h-6 w-6"
-            />
-            <p className="font-medium">Wishlist</p>
-          </div>
-
-          <div
-            className={`h-10 w-[55%] border border-gray-400 px-3 flex gap-10 items-center bg-white hover:border-2 cursor-pointer ${
-              activeComponent === "user-details" && "invert"
-            }`}
-            onClick={() => setActiveComponent("user-details")}
-          >
-            <img
-              src="../../src/assets/admin_assets/plus.png"
-              className="h-6 w-6"
-            />
-            <p className="font-medium">Personal Details</p>
-          </div>
-
-          <div
-             className={`h-10 w-[55%] border border-gray-400 px-3 flex gap-10 items-center bg-white hover:border-2 cursor-pointer ${
-              activeComponent === "preferences" && "invert"
-            }`}
-            onClick={() => setActiveComponent("preferences")}
-          >
-            <img
-              src="../../src/assets/admin_assets/plus.png"
-              className="h-6 w-6"
-            />
-            <p className="font-medium">Preferences</p>
-          </div>
-        </div>
+        <button
+          className="w-[15%] mt-5 self-end bg-red-600 h-12 text-white text-sm hover:opacity-85 cursor-pointer uppercase"
+          onClick={()=>{}}
+        >
+          remove image
+        </button>
       </div>
-
-      <div className="w-[60%] mt-15 flex flex-col justify-center py-10 pl-10 gap-5">
-        {/* <div className="flex gap-2">
-          <p className="text-gray-500 text-2xl uppercase">personal</p>
-          <p className="font-semibold text-2xl uppercase">details</p>
-          <div className="ml-2 w-10 h-[2px] bg-gray-700 mt-4"></div>
-        </div> */}
-
-        {renderComponents[activeComponent]}
-
-        {/* <div className="flex flex-col gap-5 py-10 w-[70%]">
-          <div className="flex justify-between">
-            <input
-              className="w-[48%] border-1 border-gray-200 h-10 px-2 outline-none"
-              placeholder="First Name"
-            />
-            <input
-              className="w-[48%] border-1 border-gray-200 h-10 px-2 outline-none"
-              placeholder="Last Name"
-            />
-          </div>
-          <input
-            className="w-[100%] border-1 border-gray-200 h-10 px-2 outline-none"
-            placeholder="Email Address"
-          />
-          <input
-            className="w-[100%] border-1 border-gray-200 h-10 px-2 outline-none"
-            placeholder="Street"
-          />
-
-          <div className="flex justify-between">
-            <input
-              className="w-[48%] border-1 border-gray-200 h-10 px-2 outline-none"
-              placeholder="City"
-            />
-            <input
-              className="w-[48%] border-1 border-gray-200 h-10 px-2 outline-none"
-              placeholder="State"
-            />
-          </div>
-
-          <div className="flex justify-between">
-            <input
-              className="w-[48%] border-1 border-gray-200 h-10 px-2 outline-none"
-              placeholder="Zip Code"
-            />
-            <input
-              className="w-[48%] border-1 border-gray-200 h-10 px-2 outline-none"
-              placeholder="Country"
-            />
-          </div>
-          <input
-            className="w-[100%] border-1 border-gray-200 h-10 px-2 outline-none"
-            placeholder="Phone"
-          />
-        </div> */}
-      </div>
-      <ToastContainer />
     </div>
+
+    // <div className="p-4 max-w-4xl mx-auto">
+    //   <h2 className="text-2xl font-bold mb-4">Profile Page</h2>
+
+    //   <div className="flex space-x-4 border-b mb-4">
+    //     {tabs.map((tab) => (
+    //       <button
+    //         key={tab.id}
+    //         className={`pb-2 px-4 border-b-2 ${
+    //           activeTab === tab.id
+    //             ? "border-blue-500 text-blue-600 font-semibold"
+    //             : "border-transparent text-gray-500"
+    //         }`}
+    //         onClick={() => setActiveTab(tab.id)}
+    //       >
+    //         {tab.label}
+    //       </button>
+    //     ))}
+    //   </div>
+
+    //   <div className="mt-4">{renderTab()}</div>
+    // </div>
   );
 };
 

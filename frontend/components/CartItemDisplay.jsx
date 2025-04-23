@@ -83,6 +83,7 @@ const CartItemDisplay = ({
             onClick={() => {
               if(userCartData.length === 1){
                 sessionStorage.removeItem("cart");
+                sessionStorage.removeItem("totalCost");
               }
               setUserCartData(
                 userCartData.filter((item) => !(item._id === element._id && item.selectedSize === element.selectedSize))

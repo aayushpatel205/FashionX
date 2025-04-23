@@ -105,3 +105,31 @@ export const deleteFromWishlist = async (req, res) => {
   }
 };
 
+export const updateProfilePicture = async (req, res) => {
+  const { user_id, profilePicture , public_id } = req.body;
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: user_id },
+      { profilePicture , public_id },
+      { new: true }
+    );
+    return res.status(200).json({ message: "Profile picture updated successfully", user: updatedUser });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
+export const updatePreferences = async (req, res) => {
+  const { user_id, preferences } = req.body;
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: user_id },
+      { preferences },
+      { new: true }
+    );
+    return res.status(200).json({ message: "Preferences updated successfully", user: updatedUser });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", error });
+  }
+};
+

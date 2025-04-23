@@ -20,6 +20,8 @@ import PaymentSuccessPage from "../pages/PaymentSuccessPage.jsx";
 import PaymentErrorPage from "../pages/PaymentErrorPage.jsx";
 import ProfilePage from "../pages/ProfilePage.jsx";
 import UserProtectedRoute from "../components/UserProtectedRoute.jsx";
+import PaymentStatus from "../components/PaymentStatus.jsx";
+import UserWishlist from "../components/UserWishlist.jsx";
 const App = () => {
   return (
     <Routes>
@@ -33,15 +35,16 @@ const App = () => {
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/my-order" element={<MyOrderPage />} />
           <Route path="/user-profile" element={<ProfilePage />} />
+          <Route path="/user-wishlist" element={<UserWishlist />} />
         </Route>
-        
+
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/rewards" element={<RewardsPage />} />
         <Route path="payment/success" element={<PaymentSuccessPage />} />
         <Route path="payment/error" element={<PaymentErrorPage />} />
-        
+        <Route path="/payment/status/:id" element={<PaymentStatus />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminLoginPage />} />

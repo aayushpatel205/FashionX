@@ -6,7 +6,8 @@ const UserDataContext = createContext();
 export const UserDataContextProvider = ({ children }) => {
   const [userData, setUserData] = useState({
     isVerified: false,
-    data: {}
+    data: {},
+    profilePicture: ""
   });
   return (
     <UserDataContext.Provider value={{ userData, setUserData }}>

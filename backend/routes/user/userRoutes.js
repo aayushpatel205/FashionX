@@ -5,7 +5,8 @@ import {
   getProductByCategory,
   getProductById,
   getProductBySearch,
-  updateUserDetails
+  updateUserDetails,
+  updateProfilePicture
 } from "../../controllers/user/user.js";
 import { userLogin, userSignUp , userLogout , updateUserPersonalDetails, getUserDetails } from "../../controllers/user/userAuth.js";
 import User from "../../models/User.js";
@@ -35,6 +36,7 @@ router.patch("/update/details", updateUserDetails);
 router.get("/details", getUserDetails);
 
 router.delete("/update/delete-wishlist",deleteFromWishlist);
+router.patch("/update/profile-picture",updateProfilePicture);
 
 
 export default router;

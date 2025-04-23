@@ -3,24 +3,36 @@ import hero_img from "../src/assets/frontend_assets/hero_img.png";
 import ProductCard from "../components/ProductCard";
 import { getAllProducts } from "../src/api/userApis";
 import { data, Link } from "react-router-dom";
+import { useUserData } from "../src/Context/UserDataContext";
+import { getUserDetails } from "../src/api/userApis";
+import PaymentButton from "../components/PaymentButton";
+import PayWithPayU from "../components/PayWithPayU";
 
 const HomePage = () => {
+  const { userData } = useUserData();
+  console.log(userData);
   const [latestProducts, setLatestProducts] = useState([]);
   const getData = async () => {
     try {
       const response = await getAllProducts("asc");
       const length = response?.data.length;
-      setLatestProducts(response.data.slice(length - 5 , length));
+      setLatestProducts(response.data.slice(length - 5, length));
     } catch (error) {
       console.log("error: ", error);
       // toast.error(error.message);
     }
   };
+
   useEffect(() => {
     getData();
   }, []);
+
+  // useEffect(() => {
+  //   getUserProfilePicture();
+  // }, [userData]);
   return (
     <div className="flex flex-col justify-center items-center gap-10 w-[100%] no-scrollbar">
+      {/* <PayWithPayU/> */}
       <div className="border-gray-400 border h-[500px] w-[80%] flex">
         <div className="w-[50%] h-[100%] flex flex-col justify-center items-center gap-4">
           <div className="flex items-center gap-2 text-gray-700">
@@ -77,7 +89,7 @@ const HomePage = () => {
 
       <div className="w-[80%] flex gap-6 flex-wrap justify-center ">
         {latestProducts?.map((element) => {
-          return <ProductCard product={element} key={element._id}/>;
+          return <ProductCard product={element} key={element._id} />;
         })}
       </div>
 
@@ -123,28 +135,30 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="mt-28 flex flex-col items-center gap-4">
-        <p className="text-3xl font-medium text-gray-800">
-          Subscribe Now & get 20% off
-        </p>
-        <p className="text-gray-500">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          Voluptatibus, repellat aliquid odio cumque!
-        </p>
+      {!userData?.isVerified && (
+        <div className="mt-28 flex flex-col items-center gap-4">
+          <p className="text-3xl font-medium text-gray-800">
+            Subscribe Now & get 20% off
+          </p>
+          <p className="text-gray-500">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+            Voluptatibus, repellat aliquid odio cumque!
+          </p>
 
-        <div className="flex w-[90%] justify-center mt-4">
-          <input
-            type="email"
-            className="w-[50%] h-12 pl-4 pr-2 border-2 border-t-gray-300 border-b-gray-300 border-l-gray-300 text-sm outline-none"
-            placeholder="Enter your email id"
-          />
-          <Link className="w-[20%]" to="/sign-up">
-            <button className="w-[100%] bg-black h-12 text-white text-sm hover:opacity-85 cursor-pointer">
-              SUBSCRIBE
-            </button>
-          </Link>
+          <div className="flex w-[90%] justify-center mt-4">
+            <input
+              type="email"
+              className="w-[50%] h-12 pl-4 pr-2 border-2 border-t-gray-300 border-b-gray-300 border-l-gray-300 text-sm outline-none"
+              placeholder="Enter your email id"
+            />
+            <Link className="w-[20%]" to="/sign-up">
+              <button className="w-[100%] bg-black h-12 text-white text-sm hover:opacity-85 cursor-pointer">
+                SUBSCRIBE
+              </button>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

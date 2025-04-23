@@ -100,6 +100,10 @@ export const getUserDetails = async (id, category) => {
     if (category === "wishlist") {
       params = { id, wishlist: true };
     }
+
+    if(category === "profile-picture") {
+      params = { id, profilePicture: true };
+    }
     const response = await axiosInstance.get("/user/details", {
       params: params,
     });
@@ -143,6 +147,19 @@ export const deleteFromWishlist = async (user_id, product_id) => {
       {
         data: body,
       }
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateProfilePicture = async (user_id, profilePicture , public_id ) => {
+  const body = { user_id, profilePicture , public_id};
+  try {
+    const response = await axiosInstance.patch(
+      "/user/update/profile-picture",
+      body
     );
     return response;
   } catch (error) {

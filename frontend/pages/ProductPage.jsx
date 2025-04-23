@@ -12,10 +12,12 @@ import saveIcon from "../src/assets/frontend_assets/save-light.png";
 import { toastStyle } from "../src/toastStyle";
 import { useUserData } from "../src/Context/UserDataContext";
 import { getUserDetails } from "../src/api/userApis";
+import ReactStars from "react-rating-stars-component";
 import { useLocation } from "react-router-dom";
 
 const ProductPage = () => {
   const { id } = useParams();
+  const [productRating, setProductRating] = useState(2);
   const { userData } = useUserData();
   const [productData, setProductData] = useState(null);
   const [selectedSize, setSelectedSize] = useState("S");
@@ -23,6 +25,10 @@ const ProductPage = () => {
   const { userCartData, setUserCartData } = useProductData();
   const [wishlistData, setWishlistData] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
+
+  const ratingChanged = (newRating) => {
+    setProductRating(newRating);
+  };
 
   const getProduct = async () => {
     const response = await getProductById(id);
@@ -63,7 +69,7 @@ const ProductPage = () => {
   }
 
   return (
-    <div className="w-[100%] flex flex-col gap-32">
+    <div className="w-[100%] flex flex-col gap-20">
       <div className="px-14 mt-10 flex gap-4 h-[550px]">
         <div className="h-[100%] w-[33%]">
           <img
@@ -108,16 +114,19 @@ const ProductPage = () => {
                         userData?.data.id,
                         productData?._id
                       );
-                      console.log("deleted: ",response);
-                      toast("Removed from wishlist",toastStyle);
+                      console.log("deleted: ", response);
+                      toast("Removed from wishlist", toastStyle);
                     } else {
                       const response = await userUpdateDetails({
                         user_id: userData?.data.id,
                         product: productData,
                         isWishlist: true,
                       });
-                      console.log("added into wishlist: ", response?.data.message);
-                      toast("Added to wishlist",toastStyle);
+                      console.log(
+                        "added into wishlist: ",
+                        response?.data.message
+                      );
+                      toast("Added to wishlist", toastStyle);
                     }
                     setIsSaved(!isSaved);
                   } catch (error) {
@@ -189,11 +198,8 @@ const ProductPage = () => {
           <p className="h-12 border-x border-t border-gray-200 w-[12%] flex justify-center items-center font-medium text-sm text-gray-700">
             Description
           </p>
-          <p className="h-12 border-r border-t border-gray-200 w-[12%] flex justify-center items-center font-medium text-sm text-gray-700 bg-gray-100">
-            Reviews
-          </p>
         </div>
-        <div className="h-40 border border-gray-200 px-10 py-6 text-gray-700 text-sm leading-6">
+        <div className="border border-gray-200 px-10 py-6 text-gray-700 text-sm leading-6">
           An e-commerce website is an online platform that facilitates the
           buying and selling of products or services over the internet. It
           serves as a virtual marketplace where businesses and individuals can
@@ -207,7 +213,6 @@ const ProductPage = () => {
           relevant information.
         </div>
       </div>
-
       <div className="w-[100%] flex flex-col items-center justify-center gap-5">
         <div className="flex gap-2">
           <p className="text-gray-500 text-2xl">ALL</p>

@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserDetails from "../components/UserDetails";
+import { useProductData } from "../src/Context/ProductDataContext";
 
 const PaymentPage = () => {
+  const [paymentOption, setPaymentOption] = useState("UPI");
   const navigate = useNavigate();
+  const { totalCost, setTotalCost, userCartData, setUserCartData } =
+    useProductData();
+
+  useEffect(() => {
+    if (!sessionStorage.getItem("cart")) {
+      navigate("/cart");
+    }
+    setTotalCost(
+      JSON.parse(sessionStorage.getItem("cart")).reduce(
+        (acc, curr) => acc + curr.price * curr.quantity,
+        0
+      )
+    );
+  }, []);
+
   return (
     <div className="px-14 mt-20 flex justify-between items-center">
       <div className="w-[40%] flex flex-col gap-7">
@@ -13,7 +30,7 @@ const PaymentPage = () => {
           <div className="ml-2 w-10 h-[2px] bg-gray-700 mt-4"></div>
         </div>
 
-        <UserDetails/>
+        <UserDetails />
         {/* <div className="flex flex-col gap-5">
           <div className="flex justify-between">
             <input
@@ -74,7 +91,7 @@ const PaymentPage = () => {
             <div>
               <div className="flex justify-between items-center mt-4 px-2 py-1">
                 <p className="text-gray-500">Subtotal</p>
-                <p className="text-gray-700">$100</p>
+                <p className="text-gray-700">${totalCost}</p>
               </div>
               <div className="h-[1px] bg-gray-200"></div>
             </div>
@@ -82,7 +99,7 @@ const PaymentPage = () => {
             <div>
               <div className="flex justify-between items-center mt-4 px-2 py-1">
                 <p className="text-gray-500">Shipping Fee</p>
-                <p className="text-gray-700">$10</p>
+                <p className="text-gray-700">${(0.3 * totalCost).toFixed(2)}</p>
               </div>
               <div className="h-[1px] bg-gray-200"></div>
             </div>
@@ -90,7 +107,9 @@ const PaymentPage = () => {
             <div>
               <div className="flex justify-between items-center mt-4 px-2 py-1">
                 <p className="text-gray-700 font-semibold">Total</p>
-                <p className="text-gray-700">$110</p>
+                <p className="text-gray-700">
+                  ${(totalCost + 0.3 * totalCost).toFixed(2)}
+                </p>
               </div>
             </div>
           </div>
@@ -103,32 +122,47 @@ const PaymentPage = () => {
             <div className="ml-2 w-10 h-[2px] bg-gray-700"></div>
           </div>
 
-          <div className="flex justify-between items-center">
-            <div className="w-[30%] border border-gray-200 h-8 px-3 flex items-center gap-8 hover:border-gray-700 cursor-pointer">
-              <div className="h-4 w-4 border border-gray-400 rounded-lg bg-green-600"></div>
-              <img
-                src="../src/assets/admin_assets/stripe-logo-2.png"
-                className="h-4"
-              />
+          <div className="flex gap-5 w-[50%]">
+            <div className="flex gap-5 items-center">
+              <div
+                onClick={() => setPaymentOption("UPI")}
+                className="border border-gray-200 h-8 px-3 flex items-center gap-3 cursor-pointer hover:border-black"
+              >
+                <div
+                  className={`h-4 w-4 rounded-lg ${
+                    paymentOption === "UPI"
+                      ? "bg-green-500"
+                      : "border-2 border-gray-200"
+                  }`}
+                ></div>
+                <span className="text-sm text-gray-700">UPI</span>
+              </div>
             </div>
 
-            <div className="w-[30%] border border-gray-200 h-8 px-3 flex items-center gap-6 hover:border-gray-700 cursor-pointer">
-              <div className="h-4 w-4 border border-gray-400 rounded-lg"></div>
-              <img
-                src="../src/assets/admin_assets/razorpay-icon.png"
-                className="h-16"
-              />
-            </div>
-
-            <div className="w-[35%] border border-gray-200 h-8 px-3 flex items-center gap-3 hover:border-gray-700 cursor-pointer">
-              <div className="h-4 w-4 border border-gray-400 rounded-lg "></div>
-              <span className="text-xs text-gray-700">CASH ON DELIVERY</span>
+            <div className="flex gap-5 items-center">
+              <div
+                onClick={() => setPaymentOption("Card")}
+                className="border border-gray-200 h-8 px-3 flex items-center gap-3 cursor-pointer hover:border-black"
+              >
+                <div
+                  className={`h-4 w-4 rounded-lg ${
+                    paymentOption === "Card"
+                      ? "bg-green-500"
+                      : "border-2 border-gray-200"
+                  }`}
+                ></div>
+                <span className="text-sm text-gray-700">Card</span>
+              </div>
             </div>
           </div>
 
           <button
             className="w-[40%] mt-5 self-end bg-black h-10 text-white text-sm hover:opacity-85 cursor-pointer"
-            onClick={() => navigate("/my-order")}
+            onClick={() => {
+              if (totalCost > 0) {
+                navigate("/payment/success");
+              }
+            }}
           >
             PLACE ORDER
           </button>

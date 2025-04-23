@@ -6,25 +6,29 @@ import emptyCart from "../src/assets/admin_assets/empty-cart.png";
 import { useUserData } from "../src/Context/UserDataContext";
 
 const CartPage = () => {
-  const {userData , setUserData} = useUserData();
+  const { userData, setUserData } = useUserData();
   const navigate = useNavigate();
   // const [cost, setCost] = useState(0);
   const { userCartData, setUserCartData, totalCost, setTotalCost } =
     useProductData();
-    
 
   useEffect(() => {
+    console.log("This with dependency!!!");
     setTotalCost(
       userCartData?.reduce((acc, curr) => acc + curr.price * curr.quantity, 0)
     );
-    if(userCartData?.length > 0) sessionStorage.setItem("cart", JSON.stringify(userCartData));
-    
+    if (userCartData?.length > 0) {
+      sessionStorage.setItem("cart", JSON.stringify(userCartData));
+    }
+
     // else sessionStorage.removeItem("cart");
   }, [userCartData]);
 
   useEffect(() => {
+    console.log("This without dependency !!!");
     window.scrollTo(0, 0);
-    sessionStorage.getItem("cart") && setUserCartData(JSON.parse(sessionStorage.getItem("cart")));
+    sessionStorage.getItem("cart") &&
+      setUserCartData(JSON.parse(sessionStorage.getItem("cart")));
   }, []);
   return (
     <div className="px-14 mt-16 flex flex-col gap-7">
@@ -82,7 +86,7 @@ const CartPage = () => {
             <div>
               <div className="flex justify-between items-center mt-4 px-2 py-1">
                 <p className="text-gray-500">Shipping Fee</p>
-                <p className="text-gray-700">$10</p>
+                <p className="text-gray-700">${(0.3 * totalCost).toFixed(2)}</p>
               </div>
               <div className="h-[1px] bg-gray-200"></div>
             </div>
@@ -90,13 +94,13 @@ const CartPage = () => {
             <div>
               <div className="flex justify-between items-center mt-4 px-2 py-1">
                 <p className="text-gray-700 font-semibold">Total</p>
-                <p className="text-gray-700">${totalCost + 10}</p>
+                <p className="text-gray-700">${(totalCost + 0.3 * totalCost).toFixed(2)}</p>
               </div>
             </div>
 
             <button
               className="w-[50%] mt-5 self-end bg-black h-12 text-white text-sm hover:opacity-85 cursor-pointer"
-              onClick={() => navigate("/payment/success")}
+              onClick={() => navigate("/payment")}
             >
               PROCEED TO CHECKOUT
             </button>

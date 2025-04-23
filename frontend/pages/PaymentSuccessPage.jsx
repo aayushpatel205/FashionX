@@ -1,9 +1,28 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
+import { useProductData } from "../src/Context/ProductDataContext";
+import { useNavigate } from "react-router-dom";
 
 const PaymentSuccessPage = () => {
+  const navigate = useNavigate();
   const [showConfetti, setShowConfetti] = useState(false);
+  const { totalCost, setTotalCost } = useProductData();
+
+  useEffect(() => {
+    setTotalCost(
+      sessionStorage.getItem("totalCost")
+        ? JSON.parse(sessionStorage.getItem("totalCost"))
+        : 0
+    );
+  }, []);
+
+  const formatDate = () => {
+    const now = new Date(Date.now());
+    const options = { day: "numeric", month: "long" }; // 'short' = Apr, 'long' = April
+    const formatted = now.toLocaleDateString("en-US", options);
+    return formatted;
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -54,16 +73,17 @@ const PaymentSuccessPage = () => {
         </h2>
         <div className="bg-gray-200 p-4 mt-4 rounded-lg">
           <p className="text-lg text-gray-600">
-            Amount: <strong>$99.99</strong>
+            Amount: <strong>${totalCost + totalCost * 0.3}</strong>
           </p>
           <p className="text-lg text-gray-600">
-            Date: <strong>3/1/2025</strong>
+            Date: <strong>{formatDate()}</strong>
           </p>
           <p className="text-lg text-gray-600">
-            Payment Method: <strong>Visa **** 1234</strong>
+            Payment Method: <strong>UPI</strong>
           </p>
         </div>
         <button
+          onClick={() => navigate("/")}
           className="w-[50%] mt-5 self-end bg-black h-12 text-white text-sm hover:opacity-85 cursor-pointer uppercase"
         >
           continue shopping

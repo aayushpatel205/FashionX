@@ -136,7 +136,7 @@ export const updateUserPersonalDetails = async (req, res) => {
 };
 
 export const getUserDetails = async (req, res) => {
-  const { id, personal , wishlist } = req.query;
+  const { id, personal , wishlist , profilePicture } = req.query;
   try {
     const user = await User.findById(id);
 
@@ -156,6 +156,10 @@ export const getUserDetails = async (req, res) => {
 
     if(wishlist){
       res.status(200).json({ message: "User details fetched successfully", userWishlist: user.wishlist });
+    }
+
+    if(profilePicture){
+      res.status(200).json({ message: "User details fetched successfully", userProfilePicture: user.profilePicture });
     }
     
     if (!user) return res.status(404).json({ message: "User not found" });
